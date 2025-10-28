@@ -140,24 +140,25 @@ void lee(int n, vi& vect) {
 #define INF INT_MAX
 double pi = 2*acos(0.0);
 
+Mint binpow(long long x, long long y, long long m) {
+    long long res = 1;
+    while (y > 0) {
+        if (y & 1) {
+            res *= x;
+            res = res%m;
+        }
+        x *= x;
+        x = x%m;
+        y >>= 1;
+    }
+    return res;
+}
+
 int solve() {
     // Code aquí
-    double x = 6;
-    double l=0, r=4;
-    double y = 2;
-    double prev_y = 3, sol = pow(prev_y,x/prev_y);
-    for (int i = 0; i<50; i++) { 
-        y = (l + r) / 2;
-        if (y < prev_y){
-            if (pow(y,x/y) > sol){
-                
-            } else {
-
-            }
-        } else {
-
-        }
-    }
+    long long x, y, m;
+    cin >> x >> y >> m;
+    cout << binpow(x, y, m) << endl;
     return 0;
 }
 
@@ -172,3 +173,5 @@ signed main() {
     }
     return 0;
 }
+
+// https://vjudge.net/problem/UVA-1230

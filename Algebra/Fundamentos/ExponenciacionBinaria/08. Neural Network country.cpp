@@ -23,7 +23,7 @@ typedef pair<int, int> pii;
 typedef map<string, int> msi;
 typedef map<int, vector<int>> miv;
 
-const int MOD = 998244353; // Módulo del problema, cambiar en caso de no ser ese. NO TIENE PORQUÉ SER CONSTANTE, SOLO GLOBAL
+int const MOD = 1000000007; // Módulo del problema, cambiar en caso de no ser ese. NO TIENE PORQUÉ SER CONSTANTE, SOLO GLOBAL
 
 struct Mint { // Es una estructura como el int pero que trabaja en mod MOD
     int v;
@@ -101,7 +101,7 @@ template<typename T> std::ostream& operator<<(std::ostream& os, const std::vecto
     for(const auto& elem : vec) {
         os << elem << " ";
     }
-    os << "]";
+    os << "]\n";
     return os;
 }
 
@@ -140,24 +140,72 @@ void lee(int n, vi& vect) {
 #define INF INT_MAX
 double pi = 2*acos(0.0);
 
+vector<vector<Mint>> multMatrix(vector<vector<Mint>>& matrix1, vector<vector<Mint>>& matrix2) {
+    int n = matrix1.size();
+    int m = matrix2[0].size();
+    int l = matrix2.size();
+    vector<vector<Mint>> newMatrix(n, vector<Mint>(m, 0));
+    for(int i=0; i<n; ++i)
+        for(int j=0; j<m; ++j)
+            for(int z=0; z<l; ++z)
+                newMatrix[i][j] += matrix1[i][z] * matrix2[z][j];
+    return newMatrix;
+}
+
+vector<vector<Mint>> powMatrix(vector<vector<Mint>>& matrix1, long long k) {
+    vector<vector<Mint>> res(matrix1.size(), vector<Mint>(matrix1.size(), 0));
+    for (int i = 0; i<res.size(); i++){
+        res[i][i] = 1;
+    }
+    while (k > 0) {
+        if (k & 1) {
+            res = multMatrix(res, matrix1);
+        }
+        matrix1 = multMatrix(matrix1, matrix1);
+        k >>= 1;
+    }
+    return res;
+}
+
 int solve() {
-    // Code aquí
-    double x = 6;
-    double l=0, r=4;
-    double y = 2;
-    double prev_y = 3, sol = pow(prev_y,x/prev_y);
-    for (int i = 0; i<50; i++) { 
-        y = (l + r) / 2;
-        if (y < prev_y){
-            if (pow(y,x/y) > sol){
-                
-            } else {
+    // Input
+    int n, l, m;
+    cin >> n >> l >> m;
+    vector<vector<Mint>> trans(m, vector<Mint>(m)), endM(m, vector<Mint>(m));
+    vector<vector<Mint>> initM(1, vector<Mint>(m));
 
-            }
-        } else {
+    vi record(n);
 
+    int el;
+    for (int i = 0; i<n; i++){
+        cin >> el;
+        initM[0][el % m]+=1;
+    }
+    for (int i = 0; i<n; i++){
+        cin >> el;
+        record[i] = el;
+        for (int j = 0; j<m; j++){
+            trans[j][(el+j) % m]+=1;
         }
     }
+
+    // Tendremos que fusionar la ultima capa intermedia con el enlace al final del grafo, esto es debido a que los últimos valores actuan como offset al resultado obtenido por cada nodo
+    for (int i = 0; i<n; i++){
+        cin >> el;
+        el += record[i];
+        for (int j = 0; j<m; j++){
+            endM[j][(el+j) % m]+=1;
+        }
+    }
+
+    // Calculo de trans elevado al numero de capas l
+    vector<vector<Mint>> poweredMatrix = powMatrix(trans, l-2);
+
+    vector<vector<Mint>> initApplied = multMatrix(initM, poweredMatrix);
+    vector<vector<Mint>> resp = multMatrix(initApplied, endM);
+    
+    cout << resp[0][0] << endl;
+
     return 0;
 }
 
@@ -165,10 +213,8 @@ signed main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr); 
-    int T;
-    cin >> T; // Número de casos
-    while (T--) {
-        solve();
-    }
+    solve();
     return 0;
 }
+
+// https://vjudge.net/problem/CodeForces-852B

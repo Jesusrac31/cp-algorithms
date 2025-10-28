@@ -140,24 +140,22 @@ void lee(int n, vi& vect) {
 #define INF INT_MAX
 double pi = 2*acos(0.0);
 
-int solve() {
-    // Code aquí
-    double x = 6;
-    double l=0, r=4;
-    double y = 2;
-    double prev_y = 3, sol = pow(prev_y,x/prev_y);
-    for (int i = 0; i<50; i++) { 
-        y = (l + r) / 2;
-        if (y < prev_y){
-            if (pow(y,x/y) > sol){
-                
-            } else {
-
-            }
-        } else {
-
-        }
+lli binpow_m(lli a, lli b, lli m){
+    lli res = 1;
+    while (b > 0) {
+        if (b & 1) res *= a%m;
+        res %= m;
+        a *= a%m;
+        a%=m;
+        b >>= 1;
     }
+    return res;
+}
+
+int solve(lli b, lli p, lli m) {
+    // Code aquí
+    cout << binpow_m(b, p, m) << endl;
+
     return 0;
 }
 
@@ -165,10 +163,11 @@ signed main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr); 
-    int T;
-    cin >> T; // Número de casos
-    while (T--) {
-        solve();
+    lli b, p, m;
+    while (cin >> b >> p >> m) {
+        solve(b, p, m);
     }
     return 0;
 }
+
+// https://vjudge.net/problem/UVA-374

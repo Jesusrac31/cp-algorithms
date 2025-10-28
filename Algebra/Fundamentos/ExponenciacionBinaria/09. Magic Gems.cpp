@@ -23,7 +23,7 @@ typedef pair<int, int> pii;
 typedef map<string, int> msi;
 typedef map<int, vector<int>> miv;
 
-const int MOD = 998244353; // Módulo del problema, cambiar en caso de no ser ese. NO TIENE PORQUÉ SER CONSTANTE, SOLO GLOBAL
+const int MOD = 1000000007; // Módulo del problema, cambiar en caso de no ser ese. NO TIENE PORQUÉ SER CONSTANTE, SOLO GLOBAL
 
 struct Mint { // Es una estructura como el int pero que trabaja en mod MOD
     int v;
@@ -140,24 +140,51 @@ void lee(int n, vi& vect) {
 #define INF INT_MAX
 double pi = 2*acos(0.0);
 
+vector<vector<Mint>> multMatrix(vector<vector<Mint>>& matrix1, vector<vector<Mint>>& matrix2) {
+    int n = matrix1.size();
+    int m = matrix2[0].size();
+    int l = matrix2.size();
+    vector<vector<Mint>> newMatrix(n, vector<Mint>(m, 0));
+    for(int i=0; i<n; ++i)
+        for(int j=0; j<m; ++j)
+            for(int z=0; z<l; ++z)
+                newMatrix[i][j] += matrix1[i][z] * matrix2[z][j];
+    return newMatrix;
+}
+
+vector<vector<Mint>> powMatrix(vector<vector<Mint>>& matrix1, long long k) {
+    vector<vector<Mint>> res(matrix1.size(), vector<Mint>(matrix1.size(), 0));
+    for (int i = 0; i<res.size(); i++){
+        res[i][i] = 1;
+    }
+    while (k > 0) {
+        if (k & 1) {
+            res = multMatrix(res, matrix1);
+        }
+        matrix1 = multMatrix(matrix1, matrix1);
+        k >>= 1;
+    }
+    return res;
+}
+
 int solve() {
     // Code aquí
-    double x = 6;
-    double l=0, r=4;
-    double y = 2;
-    double prev_y = 3, sol = pow(prev_y,x/prev_y);
-    for (int i = 0; i<50; i++) { 
-        y = (l + r) / 2;
-        if (y < prev_y){
-            if (pow(y,x/y) > sol){
-                
-            } else {
+    lli n, m;
+    cin >> n >> m;
 
-            }
-        } else {
+    vector<vector<Mint>> operacion(m, vector<Mint>(m, 0));
+    vector<vector<Mint>> dp(1, vector<Mint>(m,1));
 
-        }
+    for (int i = 0; i<m; i++){
+        operacion[i][(i+m-1)%m] = 1;
     }
+    operacion[m-1][m-1] = 1;
+
+    vector<vector<Mint>> Powered = powMatrix(operacion, n-m+1);
+    vector<vector<Mint>> sol = multMatrix(dp, Powered);
+    cout << sol[0].back() << endl;
+    
+
     return 0;
 }
 
@@ -165,10 +192,8 @@ signed main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr); 
-    int T;
-    cin >> T; // Número de casos
-    while (T--) {
-        solve();
-    }
+    solve();
     return 0;
 }
+
+// https://vjudge.net/problem/CodeForces-1117D

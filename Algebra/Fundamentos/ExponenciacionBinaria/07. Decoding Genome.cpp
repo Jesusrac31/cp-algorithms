@@ -23,7 +23,7 @@ typedef pair<int, int> pii;
 typedef map<string, int> msi;
 typedef map<int, vector<int>> miv;
 
-const int MOD = 998244353; // Módulo del problema, cambiar en caso de no ser ese. NO TIENE PORQUÉ SER CONSTANTE, SOLO GLOBAL
+const int MOD = 1000000007; // Módulo del problema, cambiar en caso de no ser ese. NO TIENE PORQUÉ SER CONSTANTE, SOLO GLOBAL
 
 struct Mint { // Es una estructura como el int pero que trabaja en mod MOD
     int v;
@@ -140,21 +140,105 @@ void lee(int n, vi& vect) {
 #define INF INT_MAX
 double pi = 2*acos(0.0);
 
-lli binpow_m(lli a, lli b, lli m){
-    lli res = 1;
-    while (b > 0) {
-        if (b & 1) res *= a%m;
-        res %= m;
-        a *= a%m;
-        a%=m;
-        b >>= 1;
+map<char, int> nodes = {
+    {'a', 0},
+    {'b', 1},
+    {'c', 2},
+    {'d', 3},
+    {'e', 4},
+    {'f', 5},
+    {'g', 6},
+    {'h', 7},
+    {'i', 8},
+    {'j', 9},
+    {'k', 10},
+    {'l', 11},
+    {'m', 12},
+    {'n', 13},
+    {'o', 14},
+    {'p', 15},
+    {'q', 16},
+    {'r', 17},
+    {'s', 18},
+    {'t', 19},
+    {'u', 20},
+    {'v', 21},
+    {'w', 22},
+    {'x', 23},
+    {'y', 24},
+    {'z', 25},
+    {'A', 26},
+    {'B', 27},
+    {'C', 28},
+    {'D', 29},
+    {'E', 30},
+    {'F', 31},
+    {'G', 32},
+    {'H', 33},
+    {'I', 34},
+    {'J', 35},
+    {'K', 36},
+    {'L', 37},
+    {'M', 38},
+    {'N', 39},
+    {'O', 40},
+    {'P', 41},
+    {'Q', 42},
+    {'R', 43},
+    {'S', 44},
+    {'T', 45},
+    {'U', 46},
+    {'V', 47},
+    {'W', 48},
+    {'X', 49},
+    {'Y', 50},
+    {'Z', 51}
+};
+
+vector<vector<Mint>> multMatrix(vector<vector<Mint>>& matrix1, vector<vector<Mint>>& matrix2) {
+    int n = matrix1.size();
+    vector<vector<Mint>> newMatrix(n, vector<Mint>(n, 0));
+    for(int i=0; i<n; ++i)
+        for(int j=0; j<n; ++j)
+            for(int z=0; z<n; ++z)
+                newMatrix[i][j] += matrix1[i][z] * matrix2[z][j];
+    return newMatrix;
+}
+
+vector<vector<Mint>> powMatrix(vector<vector<Mint>>& matrix1, long long k) {
+    vector<vector<Mint>> res(matrix1.size(), vector<Mint>(matrix1.size(), 0));
+    for (int i = 0; i<res.size(); i++){
+        res[i][i] = 1;
+    }
+    while (k > 0) {
+        if (k & 1) {
+            res = multMatrix(res, matrix1);
+        }
+        matrix1 = multMatrix(matrix1, matrix1);
+        k >>= 1;
     }
     return res;
 }
 
-int solve(lli b, lli p, lli m) {
+int solve() {
     // Code aquí
-    cout << binpow_m(b, p, m) << endl;
+    lli n, m, k; // op, nucleos, parejas
+    cin >> n >> m >> k;
+    vector<vector<Mint>> grafo(m, vector<Mint>(m,1));
+    string par;
+    while(k--){
+        cin >> par;
+        grafo[nodes[par[0]]][nodes[par[1]]] = 0;
+    }
+    vector<vector<Mint>> resp = powMatrix(grafo, n-1);
+    Mint ans = 0;
+    for (int i = 0; i<resp.size(); i++){
+        for (int j = 0; j<resp[i].size(); j++){
+            ans += resp[i][j];
+        }
+    }
+
+    cout << ans << endl;
 
     return 0;
 }
@@ -163,11 +247,8 @@ signed main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr); 
-    lli b, p, m;
-    while (cin >> b >> p >> m) {
-        solve(b, p, m);
-    }
+    solve();
     return 0;
 }
 
-//https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&category=0&problem=310&mosmsg=Submission+received+with+ID+30755064
+// https://vjudge.net/problem/CodeForces-222E

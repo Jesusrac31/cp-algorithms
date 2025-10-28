@@ -6,7 +6,7 @@ g++ -o main.exe "CF Global R 26 9-jun-24\C2. Magnitude (Hard Version).cpp"
 Measure-Command{.\main.exe > output.out}
 
 Opción 2:
-g++ -o main.exe "test.cpp"
+g++ -o main.exe "Algebra\Fundamentos\ExponenciacionBinaria\3. 11029 - Leading and Trailing.cpp"
 Measure-Command{Get-Content input.in | .\main.exe > output.out}
 
 bash: 

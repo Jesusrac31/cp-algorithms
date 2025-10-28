@@ -97,11 +97,11 @@ double log2(int a) { return (log(a) / log_2); }
 
 // Imprime cualquier vector 
 template<typename T> std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec) {
-    os << "[ ";//Quita esto si no quieres los corchetes o cambia lo que quieras poner
+    os << "";//Quita esto si no quieres los corchetes o cambia lo que quieras poner
     for(const auto& elem : vec) {
         os << elem << " ";
     }
-    os << "]";
+    os << "";
     return os;
 }
 
@@ -140,24 +140,44 @@ void lee(int n, vi& vect) {
 #define INF INT_MAX
 double pi = 2*acos(0.0);
 
+vector<int> applyPermutation(vector<int> sequence, vector<int> permutation) {
+    vector<int> newSequence(sequence.size());
+    for(int i = 0; i < sequence.size(); i++) {
+        newSequence[i] = sequence[permutation[i]];
+    }
+    return newSequence;
+}
+
+vector<int> permute(vector<int> sequence, vector<int> permutation, long long k) {
+    while (k > 0) {
+        if (k & 1) {
+            sequence = applyPermutation(sequence, permutation);
+        }
+        permutation = applyPermutation(permutation, permutation);
+        k >>= 1;
+    }
+    return sequence;
+}
+
 int solve() {
     // Code aquí
-    double x = 6;
-    double l=0, r=4;
-    double y = 2;
-    double prev_y = 3, sol = pow(prev_y,x/prev_y);
-    for (int i = 0; i<50; i++) { 
-        y = (l + r) / 2;
-        if (y < prev_y){
-            if (pow(y,x/y) > sol){
-                
-            } else {
+    int n, k;
+    cin >> n >> k;
 
-            }
-        } else {
+    vi seq(n);
+    iota(seq.begin(),seq.end(),1);
 
+    vi permutation(n);
+    int element = 0;
+    for (int i = 0; i<n; i++){
+        permutation[i] = element;
+        element += 2;
+        if (element>=n){
+            element=1;
         }
     }
+    cout << permute(seq, permutation, k) << endl;
+
     return 0;
 }
 
@@ -172,3 +192,5 @@ signed main() {
     }
     return 0;
 }
+
+// https://vjudge.net/problem/CodeChef-RIFFLES

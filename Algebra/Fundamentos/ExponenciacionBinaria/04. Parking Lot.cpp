@@ -140,25 +140,24 @@ void lee(int n, vi& vect) {
 #define INF INT_MAX
 double pi = 2*acos(0.0);
 
-Mint binpow(long long x, long long y, long long m) {
+long long binpow(long long a, long long b) {
     long long res = 1;
-    while (y > 0) {
-        if (y & 1) {
-            res *= x;
-            res = res%m;
-        }
-        x *= x;
-        x = x%m;
-        y >>= 1;
+    while (b > 0) {
+        if (b & 1)
+            res = res * a;
+        a = a * a;
+        b >>= 1;
     }
     return res;
 }
 
 int solve() {
     // Code aquí
-    long long x, y, m;
-    cin >> x >> y >> m;
-    cout << binpow(x, y, m) << endl;
+    int n;
+    cin >> n;
+    lli potencia = binpow(4,n-3);
+    cout << potencia*(9*n-3) << endl; // binpow(4,n-2)*3*2+binpow(4,(n-2)-1)*9*((n-2)-1);
+
     return 0;
 }
 
@@ -166,12 +165,8 @@ signed main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr); 
-    int T;
-    cin >> T; // Número de casos
-    while (T--) {
-        solve();
-    }
+    solve();
     return 0;
 }
 
-// https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&category=0&problem=3671&mosmsg=Submission+received+with+ID+30751457#google_vignette
+// https://vjudge.net/problem/CodeForces-630I
