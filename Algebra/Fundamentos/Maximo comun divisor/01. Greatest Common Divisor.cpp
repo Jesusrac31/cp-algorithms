@@ -142,6 +142,9 @@ double pi = 2*acos(0.0);
 
 int solve() {
     // Code aquí
+    int a, b;
+    cin >> a >> b;
+    cout << maximo_comun_divisor(a, b) << endl;
     return 0;
 }
 
@@ -149,10 +152,9 @@ signed main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr); 
-    int T;
-    cin >> T; // Número de casos
-    while (T--) {
-        solve();
-    }
+    solve();
     return 0;
 }
+
+// https://vjudge.net/problem/CSAcademy-gcd
+// https://csacademy.com/contest/archive/task/gcd

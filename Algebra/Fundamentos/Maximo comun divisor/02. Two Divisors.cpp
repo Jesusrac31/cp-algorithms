@@ -142,6 +142,17 @@ double pi = 2*acos(0.0);
 
 int solve() {
     // Code aquí
+    lli a, b;
+    cin >> a >> b;
+    lli gcd = maximo_comun_divisor(a, b);
+    if (a/gcd == 1){
+        cout << b*b/gcd << endl;
+    } else if (b/gcd == 1){
+        cout << a*a/gcd << endl;
+    } else {
+        cout << a*b/gcd << endl;
+    }
+
     return 0;
 }
 
@@ -156,3 +167,6 @@ signed main() {
     }
     return 0;
 }
+
+// https://vjudge.net/problem/CodeForces-1916B
+// https://codeforces.com/contest/1916/problem/B
