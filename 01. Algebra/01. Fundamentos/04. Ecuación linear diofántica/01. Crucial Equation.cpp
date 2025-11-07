@@ -136,11 +136,25 @@ void lee(int n, vi& vect) {
   rep(i, n) cin >> vect[i];
   return ;
 }
+
 #define INF INT_MAX
 double pi = 2*acos(0.0);
 
+int gcd(int a, int b) {
+  while (b) {
+    int t = b;
+    b = a % b;
+    a = t;
+  }
+  return a;
+}
+
 int solve() {
     // Code aquí
+    int a, b, c;
+    cin >> a >> b >> c;
+    int d = gcd(a,b);
+    cout << (c%d ? "No":"Yes") << endl;
     return 0;
 }
 
@@ -150,10 +164,12 @@ signed main() {
     cout.tie(nullptr); 
     int T;
     cin >> T; // Número de casos
-    while (T--) {
+    for (int i = 1; i<=T; i++){
+        cout << "Case " << i << ": ";
         solve();
     }
     return 0;
 }
 
-//Eliminar comentario si el proyecto está terminado (Dinámica empezó el 21/06/2024)
+// https://vjudge.net/problem/SPOJ-CEQU
+// https://www.spoj.com/problems/CEQU
