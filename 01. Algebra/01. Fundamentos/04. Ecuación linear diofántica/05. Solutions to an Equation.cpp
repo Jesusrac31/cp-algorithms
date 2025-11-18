@@ -109,4 +109,5 @@ signed main() {
     return 0;
 }
 
-//Eliminar comentario si el proyecto está terminado (Dinámica empezó el 21/06/2024)
+// https://vjudge.net/problem/LightOJ-1306
+// https://lightoj.com/problem/solutions-to-an-equation
