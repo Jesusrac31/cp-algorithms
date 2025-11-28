@@ -1,18 +1,7 @@
-#ifdef DEBUG
-#define _GLIBCXX_DEBUG
-#endif
-
 #include<bits/stdc++.h>
-#include<unordered_set>
 #pragma GCC optimize("O3")
 //#pragma GCC optimize("O3,unroll-loops")
 //#pragma GCC target("avx2")
-
-#ifdef DEBUG
-#include "lib/debug.h"
-#else
-#define debug(...) 228
-#endif
 
 using namespace std;
 
@@ -22,119 +11,6 @@ typedef long long lli;
 typedef pair<int, int> pii;
 typedef map<string, int> msi;
 typedef map<int, vector<int>> miv;
-
-const int MOD = 998244353; // Módulo del problema, cambiar en caso de no ser ese. NO TIENE PORQUÉ SER CONSTANTE, SOLO GLOBAL
-
-struct Mint { // Es una estructura como el int pero que trabaja en mod MOD
-    int v;
-    Mint(long long val = 0) {
-        v = int(val % MOD);
-        if (v < 0) v += MOD;
-    }
-    Mint operator+(const Mint &o) const { return Mint(v + o.v); }
-    Mint operator-(const Mint &o) const { return Mint(v - o.v); }
-    Mint operator*(const Mint &o) const { return Mint(1LL * v * o.v); }
-    Mint operator/(const Mint &o) const { return *this * o.inv(); }
-    Mint& operator+=(const Mint &o) { v += o.v; if (v >= MOD) v -= MOD; return *this; }
-    Mint& operator-=(const Mint &o) { v -= o.v; if (v < 0) v += MOD; return *this; }
-    Mint& operator*=(const Mint &o) { v = int(1LL * v * o.v % MOD); return *this; }
-    bool operator<(const Mint& o) const {return v < o.v;}
-    bool operator>(const Mint& o) const {return v > o.v;}
-    bool operator==(const Mint& o) const {return v == o.v;}
-    bool operator!=(const Mint& o) const {return v != o.v;}
-    Mint pow(long long p) const {
-        Mint a = *this, res = 1;
-        while (p > 0) {
-            if (p & 1) res *= a;
-            a *= a;
-            p >>= 1;
-        }
-        return res;
-    }
-    Mint inv() const { return pow(MOD - 2); }
-    friend ostream& operator<<(ostream& os, const Mint& m) {
-        os << m.v;
-        return os;
-    }
-};
-istream& operator>>(std::istream& input, Mint& m) {
-    input >> m.v;
-    return input;
-}
-template<typename T> std::ostream& operator<<(std::ostream& os, const Mint& m) {
-    os << m.v << " ";
-    return os;
-}
-
-#define tipoMatrix long long
-#define defaultValue 0
-struct matrix {
-    int filas;
-    int columnas;
-    vector<vector<tipoMatrix>> m;
-    matrix(int f=2, int c=2, tipoMatrix value = defaultValue){
-        filas = f;
-        columnas = c;
-        m = vector<vector<tipoMatrix>>(filas, vector<tipoMatrix>(columnas, value));
-    }
-    matrix (vector<vector<tipoMatrix>> x){
-        copy(x.begin(), x.end(), back_inserter(m));
-        filas = m.size();
-        columnas = m[0].size();
-    }
-    vector<tipoMatrix>& operator[](int index) { return m[index]; }
-    const vector<tipoMatrix>& operator[](int index) const { return m[index]; }
-    bool operator==(const matrix& other) const { return m == other.m; }
-    bool operator!=(const matrix& other) const { return m != other.m; }
-    matrix& operator= (const matrix &matrix1) { 
-        if (this == &matrix1) return *this;
-        m = matrix1.m;
-        this->filas = matrix1.filas;
-        this->columnas = matrix1.columnas;
-        return *this;
-    }
-    matrix friend operator +(const matrix &matrix1, const matrix &matrix2){
-        matrix newMatrix(matrix1.filas, matrix1.columnas);
-        for(int i=0; i<matrix1.filas; ++i)
-            for(int j=0; j<matrix1.columnas; ++j)
-                newMatrix[i][j] = matrix1[i][j] + matrix2[i][j];
-        return newMatrix;
-    }
-    matrix friend operator -(const matrix &matrix1, const matrix &matrix2){
-        matrix newMatrix(matrix1.filas, matrix1.columnas);
-        for(int i=0; i<matrix1.filas; ++i)
-            for(int j=0; j<matrix1.columnas; ++j)
-                newMatrix[i][j] = matrix1[i][j] - matrix2[i][j];
-        return newMatrix;
-    }
-    matrix friend operator *(const matrix &matrix1, const matrix &matrix2){
-        matrix newMatrix(matrix1.filas, matrix2.columnas);
-        for(int i=0; i<matrix1.filas; ++i)
-            for(int j=0; j<matrix2.columnas; ++j)
-                for(int z=0; z<matrix2.filas; ++z)
-                    newMatrix[i][j] += matrix1[i][z] * matrix2[z][j];
-        return newMatrix;
-    }
-    matrix pow(long long k) const {
-        matrix base = *this;
-        matrix res(filas, columnas, 0);
-        for (int i = 0; i < filas; i++) res[i][i] = 1;
-        while (k > 0) {
-            if (k & 1) res = res * base;
-            base = base * base;
-            k >>= 1;
-        }
-        return res;
-    }
-    friend ostream& operator<<(ostream& os, const matrix& m) {
-        for(int i=0; i<m.filas; ++i){
-            for(int j=0; j<m.columnas; ++j)
-                os << m[i][j] << " ";
-            os << "\n";
-        }            
-        return os;
-    }
-};
 
 // Funciones vector
 #define PB(a) push_back(a);
@@ -148,67 +24,49 @@ bool sort_func(int a, int b) {
 }
 #define ord(vect) sort(vect.begin(), vect.end(), sort_func)
 #define rep(x,n) for(int x = 0; x < n; ++x)
-#define borra_el(vect, el) vect.erase(vect.find(el));
-#define borra_range(vect, a, b) vect.erase(a, b);
 #define borra(vect, n) vect.erase(vect.begin() + n);
-#define B begin();
-#define E end();
 #define copia(v1, v2)                                                                                                                    \
     ;                                                                                                                                                        \
     copy(v1.begin(), v1.end(), back_inserter(v2));
-
-// Funciones pair
-#define F first;
-#define S second;
 
 // Logaritmo de 2
 double log_2 = log(2);
 double log2(int a) { return (log(a) / log_2); }
 
-void Imprime_set(set<int> s) {
-    copy(s.begin(), s.end(), ostream_iterator<int>(cout, " "));
-    cout << endl;
-}
-
-int maximo_comun_divisor(int a, int b) {
-    int temporal; // Para no perder b
-    while (b != 0) {
-        temporal = b;
-        b = a % b;
-        a = temporal;
+// Imprime cualquier vector 
+template<typename T> std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec) {
+    os << "[ ";//Quita esto si no quieres los corchetes o cambia lo que quieras poner
+    for(const auto& elem : vec) {
+        os << elem << " ";
     }
-    return a;
-}
-
-int minimo_comun_multiplo(int a, int b) {
-    return (a * b) / maximo_comun_divisor(a, b);
-}
-
-bool isNumeric(string const &str) {
-    auto it = str.begin();
-    while (it != str.end() && isdigit(*it)) {
-        it++;
-    }
-    return !str.empty() && it == str.end();
-}
-
-void lee(int n, vi& vect) {
-  rep(i, n) cin >> vect[i];
-  return ;
+    os << "]";
+    return os;
 }
 
 #define INF INT_MAX
 double pi = 2*acos(0.0);
 
-long long fib(int n) {
-    matrix base = matrix({{1, 1} , {1, 0}});
-    cout << base << endl;
-    return base.pow(n)[0][1];
+void print(__int128 x) {
+    if (x < 0) {
+        putchar('-');
+        x = -x;
+    }
+    if (x > 9) print(x / 10);
+    putchar(x % 10 + '0');
 }
 
 int solve() {
     // Code aquí
-    cout << fib(11)<< endl;;
+    int a = 0, b = 1, m = 100;
+    vi seq;
+    do {
+        seq.PB(a);
+        int tmp = a;
+        a = b;
+        b = (b + tmp)%m;
+    } while (a != 0 || b != 1);
+    cout << seq.size() << endl << seq;
+
     return 0;
 }
 
@@ -216,9 +74,8 @@ signed main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr); 
-    int T = 100;
-    while (T--) {
-        solve();
-    }
+    solve();
     return 0;
 }
+
+//Eliminar comentario si el proyecto está terminado (Dinámica empezó el 21/06/2024)

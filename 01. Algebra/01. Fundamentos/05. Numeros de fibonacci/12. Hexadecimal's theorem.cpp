@@ -74,7 +74,6 @@ int solve() {
     } else {
         cout << "I'm too stupid to solve this problem" << endl;
     }
-    
 
     return 0;
 }
