@@ -115,7 +115,6 @@ int solve() {
     for (auto x:candidatos){
         sol = min(sol, x.first);
     }
-
     cout << (candidatos.size() ? sol:-1) << endl;
 
     return 0;
