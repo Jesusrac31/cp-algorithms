@@ -47,8 +47,10 @@ void solve_tdprimes() {
     }
 }
 
-// Nota: Para SPOJ, el main solo llamaría a solve_tdprimes()
-// int main() {
-//     solve_tdprimes();
-//     return 0;
-// }
+int main() { // En este problema los métodos convencionales son muy lentos, deves optimizar todo lo posible aprovechando el input standard
+    solve_tdprimes();
+    return 0;
+}
+
+// https://vjudge.net/problem/SPOJ-TDPRIMES
+// https://www.spoj.com/problems/TDPRIMES/
